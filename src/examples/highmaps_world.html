@@ -64,7 +64,7 @@
     });
 
     // render map
-    new Datamap({
+    var map = new Datamap({
         element: document.getElementById('container1'),
         projection: 'mercator', // big world map
         // countries don't listed in dataset will be painted with this color
@@ -91,6 +91,7 @@
             }
         }
     });
+	map.updateChoropleth({ "USA": { "fillColor": "#42a844", numberOfWhatever: 75}, "FRA": { "fillColor": "#a84442", numberOfWhatever: 43 } }, reset = false);
 </script>
 
 </body>
