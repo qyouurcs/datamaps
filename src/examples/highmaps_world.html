@@ -8,13 +8,20 @@
         #date_lbl{
             left:auto;
         }
+        div{padding-bottom:1em;}
     </style>
 </head>
 <body>
+
+<div id="table_container">Select the categories from the dropdown list<br/>
+
+</div>
 <div id="wrapper">
-    <div id = 'date_lbl'>Week</div>
+    <p>Date</p>
+    <div id = 'date_lbl'></div>
     <button id = 'play'>Play</button>
 </div>
+    
 <div id="container1" style="border:1px dotted blue; width: 1080px; height: 786px; position: relative;"></div>
 
 <script src="../js/components/d3/d3.js"></script>
@@ -23,18 +30,79 @@
 <script src="http://d3js.org/queue.v1.min.js"></script>
 
 <script>
+    //Now it's for the dropdown list.
+    var dropDown = d3.select("#table_container").append("select")
+                    .attr("name", "country-list");
+    var root_dir = "1_percent_fbids_0711_split_100_uid_ext_rnd_sampled_img_ids_month_smooth_5";
+    var data = [ '', "abacus.csv", "abu_simbel.csv", "academic_gown.csv", "accordion.csv", "acropolis.csv", "airplane.csv", "aisle.csv", "aisle_betweenchairs.csv", "aisle_grocery.csv", "aisle_misc.csv", "alarm.csv", "alarm_clock.csv", "alarm_fire.csv", "alarm_iconclock.csv", "alarm_phone.csv", "alcatraz.csv", "alien.csv", "alley.csv", "alley_misc.csv", "alley_street.csv", "ambulance.csv", "ambulance_inside.csv", "ambulance_misc.csv", "ambulance_sign.csv", "angel.csv", "angel_costume.csv", "angkorwat.csv", "animal.csv", "anime.csv", "ant.csv", "antelope.csv", "anthill.csv", "apple_company.csv", "apple_fruit.csv", "apron.csv", "aquarium.csv", "aquarium_tank.csv", "archery.csv", "armadillo.csv", "army.csv", "arrow.csv", "arrow_jewelry.csv", "arrow_misc.csv", "art.csv", "art_graffiti.csv", "art_misc.csv", "art_paint.csv", "artichoke.csv", "asian.csv", "asian_boy.csv", "asian_girl.csv", "asiangirl.csv", "atm.csv", "atomium.csv", "audi.csv", "audi_inside.csv", "autumn.csv", "avocado.csv", "avocado_fruit.csv", "axe.csv", "baby.csv", "baby_car_seat.csv", "babybed.csv", "backpack.csv", "badger.csv", "bag.csv", "bag_crossbody.csv", "bag_handbag.csv", "bag_misc.csv", "bag_paper.csv", "bagel.csv", "balance_beam.csv", "balancebeam.csv", "bald.csv", "ball.csv", "ballet.csv", "balloon.csv", "banana.csv", "band.csv", "bandage.csv", "bandaid.csv", "banjo.csv", "bar.csv", "barber.csv", "barbie.csv", "baseball.csv", "baseball_court.csv", "baseball_glove.csv", "baseball_pitcher.csv", "baseball_player.csv", "baseball_stadium.csv", "baseball_uniform.csv", "baseballbat.csv", "basket.csv", "basketball.csv", "basketball_ball.csv", "basketball_court.csv", "basketball_jersey.csv", "bass_fish.csv", "bass_guitar.csv", "bat_animal.csv", "bathing_cap.csv", "bathingcap.csv", "batman.csv", "battery.csv", "battery_car.csv", "battery_electronic.csv", "battery_lithium.csv", "battery_misc.csv", "bbq.csv", "bbq_food.csv", "bbq_grill.csv", "beach.csv", "beagle.csv", "beaker.csv", "bear.csv", "bear_costume.csv", "bear_grizzly.csv", "bear_misc.csv", "bear_polar.csv", "bear_teddy.csv", "beard.csv", "bedroom.csv", "bee.csv", "beef.csv", "beef_cooked.csv", "beef_misc.csv", "beef_uncooked.csv", "beer.csv", "beer_bottle.csv", "beer_glass.csv", "beer_keg.csv", "beer_misc.csv", "beer_plastic_cup.csv", "beetle.csv", "beetle_bug.csv", "bell.csv", "bell_alarm.csv", "bell_bike.csv", "bell_cow.csv", "bell_door.csv", "bell_jingle.csv", "bell_misc.csv", "bell_traditional.csv", "bellagio_fountains.csv", "bellpepper.csv", "belly.csv", "bellybutton.csv", "belt.csv", "bench.csv", "bench_sit.csv", "berlin_wall.csv", "berlinwall.csv", "besakih.csv", "beverage_can.csv", "biceps.csv", "bicycle.csv", "big_ben.csv", "bigben.csv", "bighorn.csv", "bikini.csv", "billiards.csv", "binder.csv", "bird.csv", "birthday_cake.csv", "birthdaycake.csv", "biryani.csv", "blackandwhite.csv", "blanket.csv", "blond.csv", "blood.csv", "bloodhound.csv", "blue_dome_church.csv", "blue_mosque_inside.csv", "blue_mosque_outside.csv", "blueberry.csv", "bluemosque.csv", "board.csv", "board_game.csv", "boardgame.csv", "boat.csv", "boat_ferry.csv", "boat_fishing.csv", "boat_motor.csv", "boat_sail.csv", "bobsled.csv", "bodyart.csv", "bone.csv", "bone_dogtoy.csv", "bone_human.csv", "bone_misc.csv", "book.csv", "bookshelf.csv", "boomerang.csv", "boots.csv", "boots_bootie.csv", "boots_cowboy.csv", "boots_misc.csv", "boots_rain.csv", "boots_snow.csv", "boots_work.csv", "bottle.csv", "bottle_baby.csv", "bottle_misc.csv", "boutique.csv", "bouvier_des_flandres.csv", "bow.csv", "bowl.csv", "bowling.csv", "bowtie.csv", "box.csv", "box_cardboard.csv", "box_shape.csv", "boxer.csv", "boxing.csv", "boxing_sport.csv", "boy.csv", "bracelet.csv", "braid.csv", "brandenburg_gate.csv", "brassiere.csv", "bread.csv", "bread_loaf.csv", "bread_slice.csv", "breakdancing.csv", "brick.csv", "brick_wall.csv", "brickwall.csv", "bride.csv", "bridge.csv", "broccoli.csv", "broom.csv", "brownie.csv", "brunette.csv", "brush.csv", "bubblegum.csv", "bubbles.csv", "bucket.csv", "bud.csv", "bud_budweiser.csv", "bud_flower.csv", "bud_marijuana.csv", "buddha.csv", "buffet.csv", "bug.csv", "buildings.csv", "bulldog.csv", "bulldozer.csv", "bullfighting.csv", "bullterrier.csv", "bun.csv", "bun_bread.csv", "bun_hair.csv", "bun_hotdog.csv", "burberry.csv", "burger.csv", "burgundy.csv", "burrito.csv", "bus.csv", "bus_inside.csv", "bush.csv", "business_card.csv", "businesscard.csv", "butter.csv", "butterfly.csv", "button.csv", "button_clothing.csv", "button_mechanical.csv", "button_pin.csv", "cabbage.csv", "cactus.csv", "cage.csv", "cage_animal.csv", "cage_misc.csv", "cake.csv", "cakepop.csv", "calculator.csv", "camel.csv", "camera.csv", "camera_digital.csv", "camera_photography.csv", "campanile.csv", "candles.csv", "candles_birthday.csv", "candles_pillar.csv", "candles_taper.csv", "candles_tealight.csv", "candy.csv", "canoe.csv", "canopener.csv", "cantaloupe.csv", "cantaloupe_slice.csv", "cap.csv", "cap_misc.csv", "capeofgoodhope.csv", "car.csv", "car_inside.csv", "car_seat.csv", "cardigan.csv", "carnac.csv", "carnival.csv", "carrier.csv", "carrots.csv", "carseat.csv", "cart.csv", "cart_food.csv", "cartoon.csv", "cartwheel.csv", "casette_case.csv", "casino.csv", "casino_misc.csv", "cassette.csv", "cassette_player.csv", "cassette_tape.csv", "castle.csv", "cat.csv", "catamaran.csv", "cattle.csv", "cave.csv", "cave_inside.csv", "cave_outside.csv", "ceiling.csv", "cello.csv", "cemetery.csv", "centipede.csv", "cereal.csv", "cereal_box.csv", "cereal_food.csv", "chain.csv", "chainsaw.csv", "chair.csv", "chair_armchair.csv", "chair_beach.csv", "chair_desk.csv", "chair_dining.csv", "chair_misc.csv", "chalk.csv", "chalk_drawing.csv", "chalk_misc.csv", "chalk_stick.csv", "champagne.csv", "champagne_bottle.csv", "champagne_flute.csv", "chandelier.csv", "charminar.csv", "chess.csv", "chess_board.csv", "chess_design.csv", "chess_piece.csv", "chest.csv", "chichen_itza.csv", "chichenitza.csv", "chick.csv", "chick_chicken.csv", "chick_misc.csv", "chihuahua.csv", "child.csv", "chime.csv", "chimney.csv", "china_closet.csv", "china_plate.csv", "chips.csv", "chips_misc.csv", "chips_potato.csv", "chips_tortilla.csv", "chocolate.csv", "chopsticks.csv", "christ_redeemer_statue.csv", "christmas.csv", "christmas_decorations.csv", "christmas_misc.csv", "christmas_tree.csv", "church.csv", "church_inside.csv", "cicada.csv", "cigar.csv", "cigarette.csv", "circle.csv", "city.csv", "cliff.csv", "climbing.csv", "clock.csv", "closeup.csv", "clothes.csv", "cloud.csv", "clown.csv", "cn_tower.csv", "cntower.csv", "coast.csv", "coat.csv", "cobra.csv", "cocacola.csv", "cockpit.csv", "cockroach.csv", "cocktail.csv", "cocktailshaker.csv", "coffee.csv", "coffee_black.csv", "coffee_cup.csv", "coffee_latte.csv", "coffee_misc.csv", "coffee_table.csv", "coffeemaker.csv", "coffeetable.csv", "coffin.csv", "coke.csv", "collage.csv", "colobus.csv", "colosseum.csv", "column.csv", "comics.csv", "computer.csv", "computer_keyboard.csv", "computer_mouse.csv", "computerkeyboard.csv", "computermouse.csv", "concert.csv", "controller.csv", "convertible.csv", "cook.csv", "cookies.csv", "corgi.csv", "corkscrew.csv", "corn.csv", "corn_cob.csv", "corn_kernel.csv", "corn_misc.csv", "corvette.csv", "cosmetics.csv", "costume.csv", "cottoncandy.csv", "cottonplant.csv", "court.csv", "cow.csv", "cowboy.csv", "crab.csv", "crab_hermit.csv", "crab_horseshoe.csv", "cradle.csv", "crane.csv", "crane_bird.csv", "crane_birdorigami.csv", "crane_yogapose.csv", "crash.csv", "crate.csv", "cream.csv", "crepe.csv", "crew.csv", "crib.csv", "cricket.csv", "cricket_paddle.csv", "crochet.csv", "crocodile.csv", "croissant.csv", "croquet_ball.csv", "croquetball.csv", "cross.csv", "cross_christian.csv", "cross_other.csv", "crowd.csv", "crutch.csv", "crying.csv", "cube.csv", "cucumber.csv", "cup.csv", "cup_disposable.csv", "cup_glass.csv", "cup_misc.csv", "cupcake.csv", "cupormug.csv", "curlyhair.csv", "curtain.csv", "daisy.csv", "daisy_duck.csv", "daisy_gerbera.csv", "daisy_misc.csv", "daisy_shasta.csv", "dalmatian.csv", "dance.csv", "darts.csv", "deer.csv", "deerhound.csv", "desert.csv", "desk.csv", "desktop_computer.csv", "dessert.csv", "devil.csv", "devil_costumes.csv", "devil_drawings.csv", "diamond_jewelery.csv", "diamonds.csv", "diamonds_shape.csv", "diaper.csv", "digital_clock.csv", "digitalclock.csv", "dimsum.csv", "dinosaur.csv", "dinosaur_bones.csv", "dinosaur_interpretation.csv", "dior.csv", "dirt.csv", "dishwasher.csv", "dishwasher_commercial.csv", "dishwasher_household.csv", "disneyland.csv", "disneyland_castle.csv", "disneyland_characters.csv", "doberman.csv", "doctor.csv", "dog.csv", "dog_food.csv", "dollar.csv", "dolphin.csv", "dom_berlin.csv", "donkey.csv", "donuts.csv", "door.csv", "doorman.csv", "dorm.csv", "double_decker_bus.csv", "DoubleDeckerBus.csv", "dragon.csv", "dragon_3d.csv", "dragon_drawing.csv", "dragonfly.csv", "dragonfly_art.csv", "dragonfly_jewelry.csv", "drapes.csv", "drawing.csv", "dress.csv", "drink.csv", "drum.csv", "drum_set.csv", "drum_single.csv", "drums.csv", "duck.csv", "dumbbell.csv", "dune.csv", "eagle_bird.csv", "eagle_sign.csv", "ear.csv", "earrings.csv", "earrings_drop.csv", "earrings_stud.csv", "earth.csv", "easter_egg.csv", "egg_cracked.csv", "egg_fried.csv", "egg_misc.csv", "egg_scrambled.csv", "egg_whole.csv", "eiffel_tower.csv", "eiffeltower.csv", "electricfan.csv", "elephant.csv", "elevator.csv", "elevator_inside.csv", "empire_state_building.csv", "EmpireState.csv", "emu_bird.csv", "ephesus.csv", "escalator.csv", "exhaust_pipe.csv", "explosion.csv", "eye.csv", "eyeglasses.csv", "face.csv", "face_powder.csv", "facepowder.csv", "fall_colors.csv", "falls.csv", "fan_electric.csv", "fan_paper.csv", "fan_sports.csv", "farmers_market.csv", "fat.csv", "faucet.csv", "fax.csv", "feed.csv", "feet.csv", "fence.csv", "fern.csv", "ferrari.csv", "ferret.csv", "ferris_wheel.csv", "fig.csv", "filing_cabinet.csv", "filingcabinet.csv", "finger.csv", "fire.csv", "fireman.csv", "fireplace.csv", "firetruck.csv", "fireworks.csv", "fisheye.csv", "fishing.csv", "flag.csv", "flag_russian.csv", "flag_us.csv", "flamingo.csv", "flamingo_fake.csv", "flamingo_hotel.csv", "flashlight.csv", "fleece.csv", "flower.csv", "flower_pot.csv", "flowerpot.csv", "flute.csv", "fog.csv", "foliage.csv", "fondue.csv", "football.csv", "forbidden_city.csv", "forbiddencity.csv", "ford_mustang.csv", "forest.csv", "fork.csv", "forklift.csv", "fountain.csv", "fourposter_bed.csv", "fox.csv", "freckles.csv", "freight_car.csv", "freightcar.csv", "fries.csv", "frieze.csv", "frog.csv", "froyo.csv", "fruit.csv", "frying_pan.csv", "fryingpan.csv", "funeral.csv", "fur.csv", "galaxy.csv", "galaxy_phone.csv", "gallery.csv", "gangster.csv", "garage.csv", "garage_outside.csv", "garbage_truck.csv", "garden.csv", "gardenia.csv", "garlic.csv", "gas_station.csv", "gasstation.csv", "gazelle.csv", "german_shepard.csv", "germanshepard.csv", "giraffe.csv", "girl.csv", "glasses.csv", "glasses_eye.csv", "globe.csv", "glove.csv", "goat.csv", "goatee.csv", "gocart.csv", "goggles.csv", "golden_dome.csv", "golden_gate_bridge.csv", "golden_objects.csv", "golden_temple_amritsar.csv", "goldengate.csv", "goldfish.csv", "goldfish_cracker_bag.csv", "goldfish_species.csv", "golf.csv", "golf_ball.csv", "golf_cart.csv", "golfball.csv", "golfcart.csv", "gondola.csv", "gondola_boat.csv", "gondola_ski.csv", "google.csv", "gorilla.csv", "gorilla_costume.csv", "gorilla_misc.csv", "gorilla_plush.csv", "gorilla_statue.csv", "graduation.csv", "graffiti.csv", "graffiti_tag.csv", "grand_canyon.csv", "grandcanyon.csv", "grapes.csv", "grass.csv", "grasshopper.csv", "grave.csv", "great_wall.csv", "greatdane.csv", "GreatWall.csv", "green_bean.csv", "greenhouse.csv", "grilled_cheese.csv", "groom.csv", "guacamole.csv", "guitar.csv", "gun.csv", "gun_handgun.csv", "gun_machinegun.csv", "gun_misc.csv", "gun_range.csv", "gun_rifle.csv", "gunrange.csv", "gym.csv", "gymnastics.csv", "hair.csv", "hair_curly.csv", "hair_long.csv", "hair_pink.csv", "hair_ponytail.csv", "hair_white.csv", "haircut.csv", "hairdryer.csv", "hairspray.csv", "half_track.csv", "hamburger.csv", "hammer.csv", "hammer_sledge.csv", "hammock.csv", "hamper.csv", "hamster.csv", "hand.csv", "hand_fan.csv", "hanger.csv", "harmonica.csv", "harp.csv", "hartebeest.csv", "hat.csv", "hat_beanie.csv", "headphones.csv", "headphones_earbuds.csv", "headwrap.csv", "headwrap_headband.csv", "heart.csv", "heels.csv", "helicopter.csv", "helmet.csv", "helmet_construction.csv", "helmet_mask.csv", "helmet_misc.csv", "helmet_sports.csv", "hermitage_museum.csv", "hexagon.csv", "highway.csv", "hippopotamus.csv", "hockey.csv", "hole.csv", "hollywood_sign.csv", "hollywoodsign.csv", "honey.csv", "honey_jar.csv", "honey_misc.csv", "hoodie.csv", "horizon.csv", "horizontal_bar.csv", "horizontalbar.csv", "horse.csv", "hot_air_balloon.csv", "hotairballoon.csv", "hotdog.csv", "house.csv", "hug.csv", "husky.csv", "hut.csv", "hyundai.csv", "ic_closeup.csv", "ic_food.csv", "ic_has_person.csv", "ic_indoor.csv", "ic_landmark.csv", "ic_nature.csv", "ic_outdoor.csv", "ic_overlaid_text.csv", "ic_synthetic.csv", "ic_water.csv", "icecream.csv", "icecream_bar.csv", "icecream_cone.csv", "icecream_container.csv", "icecream_scoop.csv", "icecream_softserve.csv", "icetea.csv", "insideplane.csv", "inukshuk.csv", "ipad.csv", "iphone.csv", "ipod.csv", "ironing.csv", "ironman.csv", "isopod.csv", "jacket.csv", "jail.csv", "jam.csv", "jeans.csv", "jeep.csv", "jellyfish.csv", "jerusalem.csv", "jetski.csv", "jewelry.csv", "jin_mao_tower.csv", "jockey.csv", "juice.csv", "jump.csv", "junkyard.csv", "kangaroo.csv", "kayak.csv", "ketchup.csv", "ketchup_bottle.csv", "ketchup_dollop.csv", "ketchup_packet.csv", "key.csv", "kimchi.csv", "kimono.csv", "king.csv", "kiss.csv", "kitchen.csv", "kiwi.csv", "knife.csv", "knight.csv", "koalabear.csv", "konark_sun_temple.csv", "kremlin.csv", "labradoodle.csv", "labrador.csv", "ladle.csv", "ladybug.csv", "lake.csv", "lamp.csv", "laptop.csv", "lasagna.csv", "lava.csv", "lava_molten.csv", "lava_rock.csv", "leaf.csv", "leafblower.csv", "leash.csv", "leather.csv", "lego.csv", "legs.csv", "lemon.csv", "lemon_slice.csv", "lemon_whole.csv", "leopard.csv", "leopard_print.csv", "lever.csv", "library.csv", "license.csv", "license_plate.csv", "licenseplate.csv", "licorice.csv", "lightbulb.csv", "lightning.csv", "lightswitch.csv", "like.csv", "lilac.csv", "limousine.csv", "lion.csv", "lion_mountain.csv", "lion_plush.csv", "lion_statue.csv", "lips.csv", "little_mermaid.csv", "little_mermaid_statue.csv", "littlemermaid.csv", "living_room.csv", "livingroom.csv", "lizard.csv", "lobster.csv", "locker.csv", "locomotive.csv", "loft.csv", "logo_adobe.csv", "logo_americanexpress.csv", "logo_cocacola.csv", "logo_ebay.csv", "logo_facebook.csv", "logo_ford.csv", "logo_google.csv", "logo_honda.csv", "logo_hyundai.csv", "logo_ibm.csv", "logo_jeep.csv", "logo_mastercard.csv", "logo_mcdonalds.csv", "logo_mercedes.csv", "logo_nescafe.csv", "logo_pizzahut.csv", "logo_saturn.csv", "logo_shell.csv", "logo_sony.csv", "logo_subaru.csv", "logo_tesla.csv", "logo_tiffany.csv", "logo_toyota.csv", "logo_visa.csv", "logo_volkswagen.csv", "lollypop.csv", "longhair.csv", "lotus_temple.csv", "loudspeaker.csv", "louis_vuitton.csv", "louisvuitton.csv", "louvre.csv", "love.csv", "luxor_temple.csv", "machu_picchu.csv", "machupicchu.csv", "magazine.csv", "mailbox.csv", "maillot.csv", "makeup.csv", "man.csv", "mango.csv", "manhole.csv", "manicure.csv", "map.csv", "maraca.csv", "marble.csv", "marble_stone.csv", "marble_toy.csv", "margarita.csv", "martial_arts.csv", "martini.csv", "mask.csv", "massage.csv", "mazda.csv", "mcdonalds.csv", "mcdonalds_food.csv", "mcdonalds_inside.csv", "meadow.csv", "medicine_chest.csv", "meeting.csv", "meme.csv", "menorah.csv", "menu.csv", "meteor_or_comet.csv", "metro.csv", "metro_inside.csv", "metro_outside.csv", "mickey_mouse.csv", "mickeymouse.csv", "microphone.csv", "microwave.csv", "microwave_zoom.csv", "milan_cathedral.csv", "milano.csv", "military_uniform.csv", "milk.csv", "milk_can.csv", "milk_carton.csv", "milk_cup.csv", "milk_glass.csv", "milkcan.csv", "millau_bridge.csv", "MillauBridge.csv", "miniskirt.csv", "minivan.csv", "mink.csv", "minnie.csv", "mirror.csv", "missile.csv", "mma.csv", "mole.csv", "money.csv", "monitor.csv", "monkey.csv", "monopoly_game.csv", "monument.csv", "moon.csv", "mosquitonet.csv", "motorcycle.csv", "motorcycle_wheel.csv", "mount_everest.csv", "mount_rushmore.csv", "mountain.csv", "mountrushmore.csv", "mouth.csv", "movie_theater.csv", "movie_theater_exterior.csv", "movie_theater_interior.csv", "movie_theater_poster.csv", "mud.csv", "muffin.csv", "mug.csv", "museum.csv", "mushroom.csv", "mustache.csv", "mustang.csv", "mustard.csv", "nachos.csv", "nail.csv", "naked.csv", "neckbrace.csv", "necklace.csv", "NescafeLogo.csv", "nest.csv", "newfoundland.csv", "newgrange.csv", "newspaper.csv", "night.csv", "nike.csv", "nintendo.csv", "nintendo_console.csv", "nintendo_game.csv", "noodles.csv", "north_cape.csv", "nose.csv", "notebook.csv", "nutella.csv", "obama.csv", "oboe.csv", "ocean.csv", "octopus.csv", "office.csv", "orange.csv", "orange_fruit.csv", "orchid.csv", "organ.csv", "origami.csv", "otter.csv", "overalls.csv", "overskirt.csv", "owl.csv", "pacifier.csv", "palace.csv", "palace_of_parliament_romania.csv", "palm_tree.csv", "palmtree.csv", "pamphlet.csv", "panamacanal.csv", "pancakes.csv", "panda.csv", "panties.csv", "pants.csv", "papillon.csv", "parachute.csv", "park.csv", "parking_meter.csv", "party.csv", "pasta.csv", "patio.csv", "payphone.csv", "pekingese.csv", "pen.csv", "pencil.csv", "pencil_box.csv", "pencilbox.csv", "pencilsharpener.csv", "penguin.csv", "pepsi.csv", "perfume.csv", "perfume_bottle.csv", "perfume_box.csv", "persian_cat.csv", "persiancat.csv", "petra.csv", "phone.csv", "piano.csv", "piazza_san_marco.csv", "PiazzaSanMarco.csv", "picnic.csv", "picnic_ground.csv", "picnic_table.csv", "pie.csv", "pier.csv", "piercing.csv", "pig.csv", "pillow.csv", "pillow_bed.csv", "pillow_misc.csv", "pillow_sofa.csv", "pills.csv", "pine_tree.csv", "pineapple.csv", "pineapple_slice.csv", "pineapple_whole.csv", "pinetree.csv", "pingpong_ball.csv", "pinkhair.csv", "pitbull.csv", "pitcher.csv", "pitcher_baseball.csv", "pitcher_container.csv", "pizza.csv", "plaid.csv", "plane_inside.csv", "plant.csv", "plasticbag.csv", "platerack.csv", "playpen.csv", "pocket.csv", "podium.csv", "poker.csv", "police_car.csv", "policecar.csv", "pomegranate.csv", "ponytail.csv", "poodle.csv", "pool.csv", "popcorn.csv", "popsicle.csv", "porcupine.csv", "porsche.csv", "portrait.csv", "postcard.csv", "poster.csv", "pot.csv", "potala_palace.csv", "pottery.csv", "powerdrill.csv", "prada.csv", "pregnant.csv", "pregnant_woman.csv", "pretzel.csv", "priest.csv", "printer.csv", "printer_receipt.csv", "prisoner.csv", "propeller_plane.csv", "prophets_mosque.csv", "protest.csv", "puck.csv", "puddle.csv", "puggle.csv", "pumpkin.csv", "punching_bag.csv", "punchingbag.csv", "purse.csv", "pushbutton.csv", "pyramid_buildings.csv", "pyramid_egyptian.csv", "pyramid_people.csv", "pyramid_shape.csv", "pyramids.csv", "rabbit.csv", "racing_car.csv", "racingcar.csv", "racket.csv", "radiator.csv", "radio.csv", "railroad.csv", "rain.csv", "rainbow.csv", "rally.csv", "ranch.csv", "raspberry.csv", "rat.csv", "ravioli.csv", "raw_meat.csv", "red.csv", "red_panda.csv", "redpanda.csv", "reef.csv", "refrigerator.csv", "refrigerator_inside.csv", "remotecontrol.csv", "restaurant.csv", "restaurant_inside.csv", "retriever.csv", "rhino.csv", "ribbon.csv", "ring.csv", "river.csv", "road.csv", "robe.csv", "robot.csv", "rockingchair.csv", "rocks.csv", "rolex.csv", "roller_coaster.csv", "rollercoaster.csv", "rope.csv", "rose.csv", "rose_bud.csv", "rose_flower.csv", "rose_petal.csv", "rottweiler.csv", "rubbereraser.csv", "rubik_cube.csv", "rug.csv", "rugby.csv", "rugby_ball.csv", "rugbyball.csv", "ruler.csv", "running.csv", "runway.csv", "sacre_coeur.csv", "safe.csv", "sagrada_familia.csv", "sagradafamilia.csv", "sake_or_soju.csv", "salad.csv", "salami.csv", "salon.csv", "saltorpeppershaker.csv", "sandals.csv", "sandwich.csv", "satellite.csv", "saturn_planet.csv", "saxophone.csv", "scale.csv", "scallop.csv", "scarf.csv", "schoolbus.csv", "schoolbus_inside.csv", "scissors.csv", "scooter.csv", "scooter_motor.csv", "scooter_razor.csv", "scorpion.csv", "scorpion_pose.csv", "screen.csv", "screenshot.csv", "screwdriver.csv", "sculpture.csv", "sea.csv", "seal.csv", "sealion.csv", "seaweed.csv", "seed.csv", "seesaw.csv", "segway.csv", "selfie.csv", "seltzer_machine.csv", "sephora.csv", "sequoia.csv", "sewing_machine.csv", "shades.csv", "shadow.csv", "shaving.csv", "sheep.csv", "ship.csv", "ship_inside.csv", "shirt.csv", "shoes.csv", "shopping_cart.csv", "shoppingcart.csv", "shore.csv", "shorts.csv", "shovel.csv", "shower.csv", "shrimp.csv", "sidewalk.csv", "sign.csv", "sign_arrow.csv", "sign_stop.csv", "sign_yield.csv", "silhouette.csv", "skateboarding.csv", "skating.csv", "ski.csv", "skinmole.csv", "skirt.csv", "skull.csv", "skunk.csv", "sky.csv", "skyscraper.csv", "slap.csv", "sleeping.csv", "sleeping_animals.csv", "slide.csv", "slogan.csv", "sloth.csv", "smiling.csv", "smoke.csv", "smoking.csv", "snail.csv", "snake.csv", "sneakers.csv", "snorkel.csv", "snow.csv", "snowboarding.csv", "snowman.csv", "snowmobile.csv", "snowplow.csv", "soap.csv", "soap_dispenser_commercial.csv", "soap_dispenser_personal.csv", "soapdispenser.csv", "soccer.csv", "soccer_ball.csv", "soccerball.csv", "socks.csv", "sofa.csv", "sombrero.csv", "soup.csv", "space_needle.csv", "spaghetti.csv", "spatula.csv", "speedboat.csv", "spider.csv", "spiderman.csv", "spinach.csv", "spoon.csv", "sports_podium.csv", "spruce.csv", "squirrel.csv", "st_peters_cathedral.csv", "stadium.csv", "stadium_football.csv", "stadium_inside.csv", "stadium_soccer.csv", "stage.csv", "stair.csv", "stapler.csv", "star.csv", "starbucks.csv", "starfish.csv", "starwars.csv", "statue_of_liberty.csv", "statueofliberty.csv", "stbasilcathedral.csv", "steak.csv", "stethoscope.csv", "stick.csv", "stick_misc.csv", "stick_wood.csv", "stingray.csv", "stone.csv", "stone_henge.csv", "stonehenge.csv", "storm.csv", "stove.csv", "strainer.csv", "strangle.csv", "strawberry.csv", "street.csv", "stretcher.csv", "strip_club.csv", "stripclub.csv", "stripes.csv", "stroller.csv", "studying.csv", "submarine.csv", "subway.csv", "subway_inside.csv", "subway_misc.csv", "subway_sandwich.csv", "subway_station.csv", "suit.csv", "suitcase.csv", "sunflower.csv", "sunglasses.csv", "sunlight.csv", "sunrise.csv", "sunrise_or_sunset.csv", "sunset.csv", "superman.csv", "surfing.csv", "surprised.csv", "sushi.csv", "suspenders.csv", "swan.csv", "swastika.csv", "sweater.csv", "sweating.csv", "sweatshirt.csv", "swimming.csv", "swimming_fins.csv", "swimming_trunks.csv", "swimmingfins.csv", "swimmingtrunks.csv", "swine.csv", "sword.csv", "sydney_opera_house.csv", "SydneyOperaHouse.csv", "syringe.csv", "table.csv", "table_kitchen.csv", "tabletennis.csv", "tacos.csv", "taj_mahal.csv", "tajmahal.csv", "tambourine.csv", "tandembike.csv", "tango.csv", "tank.csv", "tapeplayer.csv", "tarantula.csv", "tattoo.csv", "taxi.csv", "taxi_inside.csv", "tea.csv", "teeth.csv", "telescope.csv", "temple.csv", "tennis.csv", "tennis_ball.csv", "tennis_court.csv", "tennis_racket.csv", "tennisball.csv", "tent.csv", "terrier.csv", "tesla_inside.csv", "test.csv", "text_post.csv", "the_high_line.csv", "thermometer.csv", "throat.csv", "throne.csv", "tiara.csv", "tick.csv", "tie.csv", "tiffany_jewelry.csv", "tiffany_singer.csv", "tiger.csv", "tights.csv", "times_square.csv", "timessquare.csv", "toaster.csv", "toddler.csv", "toes.csv", "tofu.csv", "toilet.csv", "tomato.csv", "tomato_cut.csv", "tomato_whole.csv", "tongue.csv", "toothbrush.csv", "toothpaste.csv", "torch.csv", "torch_blowtorch.csv", "torch_flaming.csv", "towel.csv", "tower.csv", "tower_bridge.csv", "tower_clock.csv", "tower_medieval.csv", "tower_misc.csv", "tower_of_pisa.csv", "TowerBridge.csv", "toy.csv", "tractor.csv", "traffic.csv", "traffic_light.csv", "trafficlight.csv", "trailer.csv", "trailer_inside.csv", "trailer_misc.csv", "train.csv", "train_misc.csv", "train_station.csv", "trap.csv", "trashcan.csv", "treadmill.csv", "tree.csv", "tree_branch.csv", "tree_house.csv", "tree_trunk.csv", "treebranch.csv", "treehouse.csv", "treetrunk.csv", "trevi_fontain.csv", "TreviFontain.csv", "triangle.csv", "tricycle.csv", "triumphal_arch.csv", "trolley.csv", "trombone.csv", "truck.csv", "truck_semi.csv", "truck_suv.csv", "trumpet.csv", "trunk_car.csv", "tshirt.csv", "tub.csv", "tulip.csv", "tunnel.csv", "tunnel_inside.csv", "turban.csv", "turntable.csv", "turtle.csv", "tuxedo.csv", "tv.csv", "twelve_apostles.csv", "TwelveApostles.csv", "twilight.csv", "twin.csv", "ultrasound.csv", "uluru.csv", "umbrella.csv", "unicycle.csv", "uniform.csv", "uniqlo.csv", "uo_ids.csv", "uo_nudity.csv", "usflag.csv", "vacuum.csv", "valley.csv", "vase.csv", "vest.csv", "victorias_secret.csv", "victoriassecret.csv", "violin.csv", "vodka.csv", "volcano.csv", "volleyball.csv", "waffle_iron.csv", "waffleiron.csv", "waffles.csv", "wailing_wall.csv", "WailingWall.csv", "walkingstick.csv", "wallet.csv", "walmart.csv", "washer.csv", "watch.csv", "water.csv", "water_fountain.csv", "water_misc.csv", "water_polo.csv", "water_pool.csv", "waterbottle.csv", "watercraft.csv", "watermelon.csv", "waterpolo.csv", "wave.csv", "wedding.csv", "weed.csv", "weight_scale.csv", "weightscale.csv", "whale.csv", "wheel.csv", "wheel_bicycle.csv", "wheel_car.csv", "wheel_ferris.csv", "wheel_misc.csv", "whiskey.csv", "white_house.csv", "white_house_inside.csv", "whitehair.csv", "whitehouse.csv", "whitewater_rafting.csv", "wig.csv", "window.csv", "winebottle.csv", "wok.csv", "wolf.csv", "woman.csv", "wood.csv", "worm.csv", "wound.csv", "wrestling.csv", "wrinkle.csv", "writing_boards.csv", "xbox.csv", "xylophone.csv", "yacht.csv", "yacht_inside.csv", "yacht_misc.csv", "yamaha.csv", "yawn.csv", "yoga.csv", "yoga_pants.csv", "yogapants.csv", "yogurt.csv", "zebra.csv", "zebra_print.csv", "zombie.csv"];
+    
+    var options = dropDown.selectAll("option")
+            .data(data)
+            .enter()
+           .append("option");
+    options.text(function (d) { return d; })
+       .attr("value", function (d) { return d; });
+    dropDown.on("change", menuChanged );
+    function menuChanged() {
+          //the name isn't important, but has to match the name
+          //you added to the menu's "change" event listener.
+
+        var selectedValue = d3.event.target.value;  
+         //get the name of the selected option from the change event object
+        if (selectedValue.length > 0){
+            clearInterval(timer);
+            d3.select("#play").html("play");
+            playing = false;
+            var fn = root_dir.concat('/',selectedValue);
+            load_data(fn);
+            idx = 0;
+            animateMap();
+        }
+    }
+    init_map();
     // example data from server
     var data = [];
     var dataset = {};
     var only_values = [];
     var palette_scale = [];
-    var map = [];
+    var map;
     var idx = 0;
     var dates = [];
     var playing = false;
-    function load_data(){
+    var timer;
+
+    function init_map(){
+        map = new Datamap({
+        element: document.getElementById('container1'),
+        projection: 'mercator', // big world map
+                // countries don't listed in dataset will be painted with this color
+        fills: { defaultFill: '#FFFFFF' },
+        data: {},
+        geographyConfig: {
+        borderColor: '#DEDEDE',
+        highlightBorderWidth: 2,
+        // don't change color on mouse hover
+        highlightFillColor: function(geo) {
+            return geo['fillColor'] || '#F5F5F5';
+        },
+        // only change border
+        highlightBorderColor: '#B7B7B7',
+        // show desired information in tooltip
+        popupTemplate: function(geo, data) {
+        // don't show tooltip if country don't present in dataset
+        if (!data) { return ; }
+        // tooltip content
+            return ['<div class="hoverinfo">',
+                    '<strong>', geo.properties.name, '</strong>',
+                    '<br>Count: <strong>', data.numberOfThings, '</strong>',
+                    '</div>'].join('');
+                }
+            }
+        });
+    }
+    function load_data(data_fn){
         queue()
-        .defer(d3.csv,'countriesRandom.csv')
+        .defer(d3.csv,data_fn)
         .await(cp_data);
         
         function cp_data(error, data){
@@ -83,37 +151,9 @@
             
             console.log(dates[200]);
             console.log(dataset[dates[10]]);
-            
-            map = new Datamap({
-                element: document.getElementById('container1'),
-                projection: 'mercator', // big world map
-                // countries don't listed in dataset will be painted with this color
-                fills: { defaultFill: '#FFFFFF' },
-                data: dataset[dates[0]],
-                geographyConfig: {
-                    borderColor: '#DEDEDE',
-                    highlightBorderWidth: 2,
-                    // don't change color on mouse hover
-                    highlightFillColor: function(geo) {
-                        return geo['fillColor'] || '#F5F5F5';
-                    },
-                    // only change border
-                    highlightBorderColor: '#B7B7B7',
-                    // show desired information in tooltip
-                    popupTemplate: function(geo, data) {
-                        // don't show tooltip if country don't present in dataset
-                        if (!data) { return ; }
-                        // tooltip content
-                        return ['<div class="hoverinfo">',
-                            '<strong>', geo.properties.name, '</strong>',
-                            '<br>Count: <strong>', data.numberOfThings, '</strong>',
-                            '</div>'].join('');
-                    }
-                }
-            });
         }
     }
-    load_data();
+    //load_data();
     
     /*window.setInterval(function() {
             idx = (idx + 1) % dates.length;
@@ -122,7 +162,7 @@
             d3.select("#date_lbl").html(dates[idx]);
     }, 20);*/
     function animateMap(){
-        var timer;
+
         d3.select("#play")
         .on('click', function(){
             if(playing == false){
@@ -137,7 +177,7 @@
                     }*/
                     map.updateChoropleth(dataset[dates[idx]]);
                     d3.select("#date_lbl").html(dates[idx]);
-                },200);
+                },400);
                 d3.select(this).html('stop');
                 playing = true;
             }
@@ -148,59 +188,8 @@
             }
         });
     }
-    animateMap();
+    //animateMap();
     
-    /*
-    var series = [
-        ["BLR",75],["BLZ",43],["RUS",50],["RWA",88],["SRB",21],["TLS",43],
-        ["REU",21],["TKM",19],["TJK",60],["ROU",4],["TKL",44],["GNB",38],
-        ["GUM",67],["GTM",2],["SGS",95],["GRC",60],["GNQ",57],["GLP",53],
-        ["JPN",59],["GUY",24],["GGY",4],["GUF",21],["GEO",42],["GRD",65],
-        ["GBR",14],["GAB",47],["SLV",15],["GIN",19],["GMB",63],["GRL",56],
-        ["ERI",57],["MNE",93],["MDA",39],["MDG",71],["MAF",16],["MAR",8],
-        ["MCO",25],["UZB",81],["MMR",21],["MLI",95],["MAC",33],["MNG",93],
-        ["MHL",15],["MKD",52],["MUS",19],["MLT",69],["MWI",37],["MDV",44],
-        ["MTQ",13],["MNP",21],["MSR",89],["MRT",20],["IMN",72],["UGA",59],
-        ["TZA",62],["MYS",75],["MEX",80],["ISR",77],["FRA",54],["IOT",56],
-        ["SHN",91],["FIN",51],["FJI",22],["FLK",4],["FSM",69],["FRO",70],
-        ["NIC",66],["NLD",53],["NOR",7],["NAM",63],["VUT",15],["NCL",66],
-        ["NER",34],["NFK",33],["NGA",45],["NZL",96],["NPL",21],["NRU",13],
-        ["NIU",6],["COK",19],["XKX",32],["CIV",27],["CHE",65],["COL",64],
-        ["CHN",16],["CMR",70],["CHL",15],["CCK",85],["CAN",76],["COG",20],
-        ["CAF",93],["COD",36],["CZE",77],["CYP",65],["CXR",14],["CRI",31],
-        ["CUW",67],["CPV",63],["CUB",40],["SWZ",58],["SYR",96],["SXM",31]];
-
-    */
-    // Datamaps expect data in format:
-    // { "USA": { "fillColor": "#42a844", numberOfWhatever: 75},
-    //   "FRA": { "fillColor": "#8dc386", numberOfWhatever: 43 } }
-    //var dataset = {};
-
-    // We need to colorize every country based on "numberOfWhatever"
-    // colors should be uniq for every value.
-    // For this purpose we create palette(using min/max series-value)
-    //var onlyValues = series.map(function(obj){ return obj[1]; });
-    /*
-    var minValue = Math.min.apply(null, onlyValues),
-            maxValue = Math.max.apply(null, onlyValues);
-
-    // create color palette function
-    // color can be whatever you wish
-    var paletteScale = d3.scale.linear()
-            .domain([minValue,maxValue])
-            .range(["#EFEFFF","#02386F"]); // blue color
-
-    // fill dataset in appropriate format
-    series.forEach(function(item){ //
-        // item example value ["USA", 70]
-        var iso = item[0],
-                value = item[1];
-        dataset[iso] = { numberOfThings: value, fillColor: paletteScale(value) };
-    });
-    */
-    
-    
-	//map.updateChoropleth({ "USA": { "fillColor": "#42a844", numberOfWhatever: 75}, "FRA": { "fillColor": "#a84442", numberOfWhatever: 43 } }, reset = false);
 </script>
 
 </body>
