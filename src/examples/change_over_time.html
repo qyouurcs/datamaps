@@ -41,7 +41,7 @@
       }
       .country {
           fill: steelblue;
-          stroke: white;
+          stroke: green;
       }
       #play, #clock {
       	position: absolute;
@@ -66,7 +66,9 @@
 
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+<script src="https://d3js.org/d3-array.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
 <script src="http://d3js.org/queue.v1.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script>
@@ -74,7 +76,6 @@
 var width, height, projection, path, graticule, svg, attributeArray = [], currentAttribute = 0, playing = false;
 
 function init() {
-
   setMap();
   animateMap();
 
@@ -82,9 +83,9 @@ function init() {
 
 function setMap() {
 
-  width = 1080, height = 800;  // map width and height, matches 
+  width = 1800, height = 600;  // map width and height, matches 
 
-  projection = d3.geo.cylindricalStereographic()   // define our projection with parameters
+  projection = d3.geoMercator()   // define our projection with parameters
     //.scale(170)
     //.translate([width / 2, height / 2])
     //.precision(.1);
@@ -171,7 +172,7 @@ function sequenceMap() {
   
     var dataRange = getDataRange(); // get the min/max values from the current year's range of data values
     d3.selectAll('.country').transition()  //select all the countries and prepare for a transition to new values
-      .duration(750)  // give it a smooth time period for the transition
+      .duration(20)  // give it a smooth time period for the transition
       .attr('fill-opacity', function(d) {
         return getColor(d.properties[attributeArray[currentAttribute]], dataRange);  // the end color value
       })
@@ -180,9 +181,12 @@ function sequenceMap() {
 
 function getColor(valueIn, valuesIn) {
 
-  var color = d3.scale.linear() // create a linear scale
-    .domain([valuesIn[0],valuesIn[1]])  // input uses min and max values
-    .range([.3,1]);   // output for opacity between .3 and 1 %
+  //var color = d3.scale.linear() // create a linear scale
+  //  .domain([valuesIn[0],valuesIn[1]])  // input uses min and max values
+  //  .range([.3,1]);   // output for opacity between .3 and 1 %
+  var color = d3.scale.linear()
+            .domain([valuesIn[0],valuesIn[1]])
+            .range(["#EFEFFF","#02386F"]); // blue color   
 
   return color(valueIn);  // return that number to the caller
 }
@@ -219,7 +223,7 @@ function animateMap() {
           }
           sequenceMap();  // update the representation of the map 
           d3.select('#clock').html(attributeArray[currentAttribute]);  // update the clock
-        }, 2000);
+        }, 30);
       
         d3.select(this).html('stop');  // change the button label to stop
         playing = true;   // change the status of the animation
