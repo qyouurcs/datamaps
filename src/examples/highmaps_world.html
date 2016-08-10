@@ -9,6 +9,17 @@
             left:auto;
         }
         div{padding-bottom:1em;}
+        .colorbar .axis line{
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+
+        .colorbar .axis .domain{
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
     </style>
 </head>
 <body>
@@ -28,6 +39,7 @@
 <script src="../js/components/topojson/topojson.js"></script>
 <script src="../../dist/datamaps.world.js"></script>
 <script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="./js/colorbar.js"></script>    
 
 <script>
     //Now it's for the dropdown list.
@@ -69,8 +81,8 @@
     var idx = 0;
     var dates = [];
     var playing = false;
-    var timer;
-
+    var timer, colorbar;
+    var color_bar_svg;
     function init_map(){
         map = new Datamap({
         element: document.getElementById('container1'),
@@ -99,6 +111,12 @@
                 }
             }
         });
+        // THis is for color bar
+        color_bar_svg = d3.selectAll("svg").append("g");
+        color_bar_svg.attr("transform","translate(10,10)")
+            .classed("colorbar",true);
+
+        //var bar =  d3.selectAll("svg").append("g").attr("id","colorbar")
     }
     function load_data(data_fn){
         queue()
@@ -121,9 +139,15 @@
                 maxValue = Math.max.apply(null, only_values);
             console.log("minValue ", minValue);
             console.log("maxValue", maxValue);
+
             palette_scale = d3.scale.linear()
                 .domain([minValue,maxValue])
-                .range(["#FBB0B0","#FC0404"])
+                .range(["blue", "red"]);
+            var cb = colorBar()
+                .color(palette_scale)
+                .size(400).lineWidth(20).precision(1);
+            color_bar_svg.call(cb);
+            //.range(["#FBB0B0","#FC0404"])
                 //.range(["#EFEFFF","#02386F"]); // blue color
             console.log(palette_scale);
             for( var j in data){
